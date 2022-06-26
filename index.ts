@@ -1,6 +1,7 @@
 import {
   assertEquals,
   assertThrows,
+  assertNotEquals,
 } from "https://deno.land/std@0.145.0/testing/asserts.ts"
 
 /**
@@ -340,4 +341,32 @@ Deno.test("omitProperties", () => {
     omitProperties(obj, "a", "c", "b"), // omit everything
     {}
   )
+})
+
+/**
+	Use spreading.
+ */
+const updateName = (
+  obj: Record<string, string | number>,
+  newName: string
+) => ({
+  ...obj,
+  name: newName,
+})
+
+Deno.test("updateName: update existing property", () => {
+  const input = { name: "John", age: 54 }
+  const output = updateName(input, "Jane")
+  // The function must return a copy, not the original:
+  assertNotEquals(input, output)
+  // @ts-ignore
+  assertEquals(output, { name: "Jane", age: 54 })
+})
+
+Deno.test("updateName: add new property", () => {
+  const input = {}
+  const output = updateName(input, "Rumpelstiltskin")
+  // The function must return a copy, not the original:
+  assertNotEquals(input, output)
+  assertEquals(output, { name: "Rumpelstiltskin" })
 })
