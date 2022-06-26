@@ -251,3 +251,21 @@ Deno.test("removeEmptyLinesViaPush() via .push()", () => {
   assertEquals(removeEmptyLinesViaPush([""]), [])
   assertEquals(removeEmptyLinesViaPush(["", "a", ""]), ["a"])
 })
+
+/**
+	Sort the test below via .sort()
+ */
+const sortObjectsByName = <T extends { name: string }>(arr: T[]) =>
+  arr.sort((a: T, b: T) => a.name.localeCompare(b.name))
+
+Deno.test("sortObjectsByName", () => {
+  assertEquals(
+    sortObjectsByName([
+      { name: "C" },
+      { name: "b" },
+      { name: "Ä" },
+      { name: "d" },
+    ]),
+    [{ name: "Ä" }, { name: "b" }, { name: "C" }, { name: "d" }]
+  )
+})
