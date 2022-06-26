@@ -269,3 +269,37 @@ Deno.test("sortObjectsByName", () => {
     [{ name: "Ä" }, { name: "b" }, { name: "C" }, { name: "d" }]
   )
 })
+
+/**
+	Use Object.entries()
+	findKey(object, callback) returns the first property key 
+  for which callback(propValue, propKey, object) returns true.
+	Inspired by Underscore function _.findKey(): https://underscorejs.org/#findKey
+ */
+const findKey = (obj: any, callback: (...args: any[]) => boolean) => {
+  for (const [key, value] of Object.entries(obj)) {
+    if (callback(value, key, obj)) {
+      return key
+    }
+  }
+}
+
+Deno.test("Find key via value", () => {
+  assertEquals(
+    findKey({ a: 1, b: 2, c: 3 }, (v) => v > 1),
+    "b"
+  )
+})
+
+Deno.test("Find key via key", () => {
+  assertEquals(
+    findKey({ a: 1, bb: 2, ccc: 3 }, (_v, k) => k.length > 2),
+    "ccc"
+  )
+})
+
+Deno.test("Is object passed to callback?", () => {
+  const obj = { a: 1, b: 2, c: 3 }
+  // @ts-ignore
+  findKey(obj, (v, k, o) => assertEquals(o, obj))
+})
