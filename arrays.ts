@@ -1,4 +1,7 @@
-import { assertEquals } from "https://deno.land/std@0.145.0/testing/asserts.ts"
+import {
+  assertEquals,
+  assertThrows,
+} from "https://deno.land/std@0.145.0/testing/asserts.ts"
 
 /**
   Use Array.prototype.flatMap()
@@ -164,4 +167,46 @@ Deno.test("numberLines", () => {
     "10: j",
   ]
   assertEquals(numberLines(lines), numbered)
+})
+
+/**
+	Implement the class Queue via an Array
+ */
+class Queue {
+  items: string[]
+  constructor() {
+    this.items = []
+  }
+  enq(item: string) {
+    this.items = [...this.items, item]
+  }
+  deq() {
+    if (this.items.length === 0) {
+      throw new Error("Queue is empty")
+    }
+    return this.items.shift()
+  }
+  get length() {
+    return this.items.length
+  }
+}
+
+Deno.test("Using a queue", () => {
+  const queue = new Queue()
+  assertEquals(queue.length, 0)
+
+  queue.enq("a")
+  queue.enq("b")
+  assertEquals(queue.length, 2)
+
+  assertEquals(queue.deq(), "a")
+  assertEquals(queue.deq(), "b")
+  assertEquals(queue.length, 0)
+  // @ts-ignore
+  assertThrows(() => queue.deq(), { message: "Queue is empty" })
+})
+
+Deno.test("Queue must not be a subclass of Array", () => {
+  const queue = new Queue()
+  assertEquals(queue instanceof Array, false)
 })
