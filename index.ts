@@ -310,7 +310,7 @@ Deno.test("Is object passed to callback?", () => {
   `object` that has all of the properties of the original except 
   for those whose `keys` are mentioned at the end.
 	Inspired by Underscore function _.omit(): https://underscorejs.org/#omit
-*/
+ */
 const omitProperties = (
   obj: Record<string, number>,
   ...args: string[]
