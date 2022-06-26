@@ -210,3 +210,21 @@ Deno.test("Queue must not be a subclass of Array", () => {
   const queue = new Queue()
   assertEquals(queue instanceof Array, false)
 })
+
+/**
+	Use Array.prototype.filter
+ */
+const removeEmptyLines = (arr: string[]) =>
+  arr.filter((item) => item !== "")
+
+Deno.test("removeEmptyLines() via .filter()", () => {
+  assertEquals(
+    removeEmptyLines(["", "a", "b", "", "", "c", "d", ""]),
+    ["a", "b", "c", "d"]
+  )
+  assertEquals(removeEmptyLines([]), [])
+  assertEquals(removeEmptyLines(["a"]), ["a"])
+  assertEquals(removeEmptyLines(["a", "b"]), ["a", "b"])
+  assertEquals(removeEmptyLines([""]), [])
+  assertEquals(removeEmptyLines(["", "a", ""]), ["a"])
+})
