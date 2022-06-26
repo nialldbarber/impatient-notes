@@ -303,3 +303,41 @@ Deno.test("Is object passed to callback?", () => {
   // @ts-ignore
   findKey(obj, (v, k, o) => assertEquals(o, obj))
 })
+
+/**
+	Use Object.entries() and Object.fromEntries()
+	omitProperties(object, ...keys) returns a shallow copy of 
+  `object` that has all of the properties of the original except 
+  for those whose `keys` are mentioned at the end.
+	Inspired by Underscore function _.omit(): https://underscorejs.org/#omit
+*/
+const omitProperties = (
+  obj: Record<string, number>,
+  ...args: string[]
+) => {
+  let nonOmitted = {}
+  for (const [key, value] of Object.entries(obj)) {
+    if (!args.includes(key)) {
+      nonOmitted = {
+        ...nonOmitted,
+        [key]: value,
+      }
+    }
+  }
+  return nonOmitted
+}
+
+Deno.test("omitProperties", () => {
+  const obj = { a: 1, b: 2, c: 3 }
+  assertEquals(
+    omitProperties(obj), // omit nothing
+    { a: 1, b: 2, c: 3 }
+  )
+  assertEquals(omitProperties(obj, "c"), { a: 1, b: 2 })
+  assertEquals(omitProperties(obj, "c", "b"), { a: 1 })
+  assertEquals(omitProperties(obj, "a", "c"), { b: 2 })
+  assertEquals(
+    omitProperties(obj, "a", "c", "b"), // omit everything
+    {}
+  )
+})
