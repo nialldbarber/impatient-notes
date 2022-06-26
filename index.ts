@@ -231,8 +231,8 @@ Deno.test("removeEmptyLinesViaFilter() via .filter()", () => {
 })
 
 /**
-– Use a for-of loop and Array.prototype.push
-*/
+  Use a for-of loop and Array.prototype.push
+ */
 const removeEmptyLinesViaPush = (arr: string[]) => {
   const items = []
   for (const item of arr) {
