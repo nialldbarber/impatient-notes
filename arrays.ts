@@ -3,7 +3,7 @@ import { assertEquals } from "https://deno.land/std@0.145.0/testing/asserts.ts"
 /**
   Use Array.prototype.flatMap()
   Use Number() to convert arbitrary values to numbers.
-*/
+ */
 const convertToNumbers = (arr: any[]) =>
   arr
     .flatMap((currentValue) => Number(currentValue))
@@ -23,7 +23,7 @@ Deno.test("convertToNumbers() via flatMap()", () => {
 
 /**
   Use Array.prototype.reduce()
-*/
+ */
 const countMatches = (
   arr: any[],
   callbackFn: (num: any) => boolean
@@ -64,7 +64,7 @@ Deno.test("countMatches() via .reduce()", () => {
 
 /**
   Use Array.prototype.reduce()
-*/
+ */
 const filter = (
   arr: any[],
   callback: (...args: any[]) => boolean
@@ -104,9 +104,9 @@ Deno.test("filter", () => {
   )
 })
 
-/*
-- Use Array.prototype.reduce() to implement map_via_reduce.mjs
-*/
+/**
+  Use Array.prototype.reduce() to implement map_via_reduce.mjs
+ */
 const map = (
   arr: any[],
   callback: (...args: any[]) => number | string
@@ -138,4 +138,30 @@ Deno.test("map() via .reduce()", () => {
     map([], (x) => x),
     []
   )
+})
+
+/**
+  Use the Array method .map()
+ */
+const padNumber = (num: number) =>
+  num.toString().length === 1 ? `0${num}` : num
+
+const numberLines = (lines: string[]) =>
+  lines.map((line, index) => `${padNumber(index + 1)}: ${line}`)
+
+Deno.test("numberLines", () => {
+  const lines = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
+  const numbered = [
+    "01: a",
+    "02: b",
+    "03: c",
+    "04: d",
+    "05: e",
+    "06: f",
+    "07: g",
+    "08: h",
+    "09: i",
+    "10: j",
+  ]
+  assertEquals(numberLines(lines), numbered)
 })
