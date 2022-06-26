@@ -214,17 +214,40 @@ Deno.test("Queue must not be a subclass of Array", () => {
 /**
 	Use Array.prototype.filter
  */
-const removeEmptyLines = (arr: string[]) =>
+const removeEmptyLinesViaFilter = (arr: string[]) =>
   arr.filter((item) => item !== "")
 
-Deno.test("removeEmptyLines() via .filter()", () => {
+Deno.test("removeEmptyLinesViaFilter() via .filter()", () => {
   assertEquals(
-    removeEmptyLines(["", "a", "b", "", "", "c", "d", ""]),
+    removeEmptyLinesViaFilter(["", "a", "b", "", "", "c", "d", ""]),
     ["a", "b", "c", "d"]
   )
-  assertEquals(removeEmptyLines([]), [])
-  assertEquals(removeEmptyLines(["a"]), ["a"])
-  assertEquals(removeEmptyLines(["a", "b"]), ["a", "b"])
-  assertEquals(removeEmptyLines([""]), [])
-  assertEquals(removeEmptyLines(["", "a", ""]), ["a"])
+  assertEquals(removeEmptyLinesViaFilter([]), [])
+  assertEquals(removeEmptyLinesViaFilter(["a"]), ["a"])
+  assertEquals(removeEmptyLinesViaFilter(["a", "b"]), ["a", "b"])
+  assertEquals(removeEmptyLinesViaFilter([""]), [])
+  assertEquals(removeEmptyLinesViaFilter(["", "a", ""]), ["a"])
+})
+
+/**
+– Use a for-of loop and Array.prototype.push
+*/
+const removeEmptyLinesViaPush = (arr: string[]) => {
+  const items = []
+  for (const item of arr) {
+    if (item !== "") items.push(item)
+  }
+  return items
+}
+
+Deno.test("removeEmptyLinesViaPush() via .push()", () => {
+  assertEquals(
+    removeEmptyLinesViaPush(["", "a", "b", "", "", "c", "d", ""]),
+    ["a", "b", "c", "d"]
+  )
+  assertEquals(removeEmptyLinesViaPush([]), [])
+  assertEquals(removeEmptyLinesViaPush(["a"]), ["a"])
+  assertEquals(removeEmptyLinesViaPush(["a", "b"]), ["a", "b"])
+  assertEquals(removeEmptyLinesViaPush([""]), [])
+  assertEquals(removeEmptyLinesViaPush(["", "a", ""]), ["a"])
 })
